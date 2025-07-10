@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Skills - SkillSwap</title>
+  <link rel="stylesheet" href="dashboardStyle.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .skill-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>All Available Skills</h2>
+
+  <!-- Filter Controls -->
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Search by name or skill...">
+    <select id="skillFilter">
+      <option value="">All Skills</option>
+    </select>
+  </div>
+
+  <div class="card-container" id="skills"></div>
+
+  <script>
+    let allSkills = [];
+
+    // Fetch all skills
+    fetch('/skills')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        allSkills = data;
+        populateDropdown(data);
+        renderSkills(data);
+      });
+
+    // Populate dropdown with unique skills
+    function populateDropdown(skills) {
+      const dropdown = document.getElementById('skillFilter');
+      const uniqueSkills = [...new Set(skills.map(s => s.skillOffered))];
+
+      uniqueSkills.forEach(function(skill) {
+        const option = document.createElement('option');
+        option.value = skill;
+        option.textContent = skill;
+        dropdown.appendChild(option);
+      });
+    }
+
+    // Render cards
+    function renderSkills(skills) {
+      const container = document.getElementById('skills');
+      container.innerHTML = "";
+
+      if (skills.length === 0) {
+        container.innerHTML = "<p>No skills match your search.</p>";
+        return;
+      }
+
+      skills.forEach(function(skill) {
+        const card = document.createElement('div');
+        card.classList.add('skill-card');
+
+        const text = document.createElement('p');
+        text.innerHTML = `<strong>${skill.offeredBy}</strong> offers <strong>${skill.skillOffered}</strong> and wants to learn <strong>${skill.wantsToLearn}</strong>`;
+        card.appendChild(text);
+
+        container.appendChild(card);
+      });
+    }
+
+    // Apply search and filter
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('skillFilter').addEventListener('change', applyFilters);
+
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const selectedSkill = document.getElementById('skillFilter').value;
+
+      const filtered = allSkills.filter(function(skill) {
+        const matchesSearch = skill.offeredBy.toLowerCase().includes(search) ||
+                              skill.skillOffered.toLowerCase().includes(search) ||
+                              skill.wantsToLearn.toLowerCase().includes(search);
+
+        const matchesDropdown = selectedSkill === "" || skill.skillOffered === selectedSkill;
+
+        return matchesSearch && matchesDropdown;
+      });
+
+      renderSkills(filtered);
+    }
+  </script>
+
+</body>
+</html>

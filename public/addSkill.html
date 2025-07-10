@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Skill</title>
+
+<style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f2f2f2;
+      padding: 80px 120px;
+    }
+
+    .form-wrapper {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .form-wrapper h2 {
+      margin-bottom: 24px;
+      color: #333;
+    }
+
+    .form-wrapper input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .form-wrapper button {
+      background: #5DBE8A;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .form-wrapper button:hover {
+      background: #4fa473;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="form-wrapper">
+        <h2>Add a New Skill</h2>
+        <form id="addForm">
+            <input type="text" id="offeredBy" placeholder="Your name here" required>
+            <input type="text" id="skillOffered" placeholder="What can you teach?" required>
+            <input type="text" id="wantsToLearn" placeholder="What do you want to learn?" required>
+            <button type="submit">Post Skill</button>
+        </form>
+
+            <a href="/dashboard">← Back to Dashboard</a>
+
+    </div>
+
+<script>
+    document.getElementById('addForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const data = {
+            offeredBy: document.getElementById('offeredBy').value,
+            skillOffered: document.getElementById('skillOffered').value,
+            wantsToLearn: document.getElementById('wantsToLearn').value
+        }
+
+        var token = localStorage.getItem('token');
+        fetch('/skills', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(data)
+        })
+
+        .then(function(response) {
+            if(response.ok) {
+                alert('Skill Posted To SkillSwap!');
+                window.location.href = '/dashboard';
+            } else {
+                alert('Failed to add skill!')
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

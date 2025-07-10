@@ -1,0 +1,542 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f1f1;
+  /* margin: 220px; */
+  /* padding: 200px; */
+}
+
+
+
+/*********************   Navigation Starts   *********************/
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  background-color: #ffffff;
+  padding: 0 120px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.app-logo a {
+  font-size: 32px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #5DBE8A;
+}
+
+.nav-items {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-items a {
+  text-decoration: none;
+  color: #333;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  position: relative;
+}
+
+.nav-items a:hover {
+  color: #5DBE8A;
+  transition: 0.3s ease;
+}
+
+.nav-items a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  background: #5DBE8A;
+  bottom: -4px;
+  left: 0;
+  transition: 0.3s ease;
+}
+
+.nav-items a:hover::after {
+  width: 100%;
+}
+/*********************   Navigation Ends   *********************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********************   Hero Section   *********************/
+
+.hero-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 120px;
+  padding-right: 120px;
+  background-color: #f0f8ff;
+  gap: 40px;
+  flex-wrap: wrap; /* Ensures responsiveness on small screens */
+  height: 80vh;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 500px;
+}
+
+.hero-text .heading-text {
+  padding-left: 0px;
+  margin-left: 0px;
+  font-size: 34px;
+  text-align: start;
+  color: #333;
+  margin-bottom: 20px;  
+  font-weight: 900;
+}
+
+.hero-text p {
+  font-size: 16;
+  font-family: poppins;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.hero-text .btn-group {
+  display: flex;
+  justify-content: start;
+}
+
+.hero-text .btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #F5A623;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  font-family: poppins;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.hero-text .btn:hover {
+  background-color: #de8d0b;
+}
+
+.hero-text .btn-primary {
+  background: #5DBE8A;
+}
+
+.hero-text .btn-primary:hover {
+  background-color: #319a62;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+/*********************   Hero Section Ends  *********************/
+
+
+
+
+
+
+
+
+
+
+
+/*********************   How it works Section  *********************/
+.how-it-works {
+  background-color: #fefefe;
+  padding: 80px 120px;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-size: 34px;
+  font-weight: 900;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.step {
+  flex: 1 1 250px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+}
+
+.step img {
+  width: 314px;
+  margin-bottom: 20px;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.step h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+.step p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+/*********************   How it works Section Ends  *********************/
+
+
+
+
+
+
+
+
+
+
+
+/*********************   Why SkillSwap Section  *********************/
+.why-skillswap {
+  background-color: #F0F8FF;
+  padding: 80px 120px;
+  text-align: center;
+}
+
+.why-skillswap h2 {
+  font-size: 34px;
+  font-weight: 900;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.why-reasons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.reason {
+  flex: 1 1 250px;
+  background-color: #F0F8FF;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s ease;
+}
+
+.reason:hover {
+  transform: translateY(-5px);
+}
+
+.reason img {
+  width: 314px;
+  margin-bottom: 20px;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.reason h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+.reason p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+/*********************   Why SkillSwap Section Ends  *********************/
+
+
+
+
+
+
+
+
+
+/*********************   CTA Section Starts  *********************/
+.cta-wrapper {
+  background-color: #ffffff;
+  padding: 80px 0;
+}
+
+/* CTA with background image and overlay */
+.cta.with-bg {
+  position: relative;
+  background-image: url('images/cta-img.jpeg'); /* Replace with your real image path */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 80px 40px;
+  border-radius: 12px;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 900px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* Overlay effect */
+.cta.with-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.705); /* Adjust opacity for strength */
+  z-index: 0;
+  border-radius: 12px;
+}
+
+/* Content stays above overlay */
+.cta-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 34px;
+  margin-bottom: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cta-content p {
+  font-size: 14px;
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cta-content .btn-primary {
+  background-color: #319a62;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.cta-wrapper .cta .cta-content a { 
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cta-content .btn-primary:hover {
+  background-color: #5DBE8A;
+}
+
+/*********************   CTA Section Ends  *********************/
+
+
+
+
+
+
+
+/*********************   Footer Section Starts  *********************/
+.footer {
+  background-color: #f0f8ff;
+  padding: 60px 120px 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.footer-left h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #5DBE8A;
+}
+
+.footer-left p {
+  font-size: 14px;
+  color: #666;
+}
+
+.footer-links h4,
+.footer-social h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 400;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -2px;
+  background-color: #5DBE8A;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #5DBE8A;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+
+.footer-social .social-icons a {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.footer-social .social-icons img {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  font-family: poppins;
+  font-size: 14px;
+  color: #888;
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
+}
+/*********************   Footer Section Ends  *********************/
+
+
+
+
+
+
+
+
+
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 3px;
+}
+
+button {
+  padding: 10px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+#skillList {
+  margin-top: 30px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;      /* So items wrap to next line */
+  gap: 20px;            /* Optional spacing between cards */
+}
+
+.skill-card {
+  width: 45%;
+  border: 1px solid #ccc;
+  padding: 15px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}

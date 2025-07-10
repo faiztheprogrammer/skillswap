@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Skill</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #f2f2f2;
+      padding: 80px 120px;
+    }
+
+    .edit-form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .edit-form h2 {
+      margin-bottom: 24px;
+      color: #333;
+    }
+
+    .edit-form input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .edit-form button {
+      background: #5DBE8A;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-form button:hover {
+      background: #4fa473;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="edit-form">
+    <h2>Edit Skill</h2>
+
+    <form id="editForm">
+      <input type="text" id="offeredBy" placeholder="Your Name" required>
+      <input type="text" id="skillOffered" placeholder="Skill You Can Teach" required>
+      <input type="text" id="wantsToLearn" placeholder="Skill You Want to Learn" required>
+      <button type="submit">Update Skill</button>
+    </form>
+
+    <a href="/dashboard">← Back to Dashboard</a>
+  </div>
+
+  <script>
+    var skillId = window.location.pathname.split('/')[2];
+
+    // Load the skill
+    fetch('/skills/' + skillId)
+      .then(function(res) { return res.json(); })
+      .then(function(skill) {
+        document.getElementById('offeredBy').value = skill.offeredBy;
+        document.getElementById('skillOffered').value = skill.skillOffered;
+        document.getElementById('wantsToLearn').value = skill.wantsToLearn;
+      });
+
+    // Submit form
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var data = {
+        offeredBy: document.getElementById('offeredBy').value,
+        skillOffered: document.getElementById('skillOffered').value,
+        wantsToLearn: document.getElementById('wantsToLearn').value
+      };
+
+      var token = localStorage.getItem('token');
+      fetch('/skills/' + skillId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer' + token
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function(res) {
+        if (res.ok) {
+          alert('Skill updated!');
+          window.location.href = '/dashboard';
+        } else {
+          alert('Update failed');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
