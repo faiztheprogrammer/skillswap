@@ -6,6 +6,7 @@ const path = require('path');
 
 const Skill = require('./Models/Skill');
 const User = require('./Models/User');
+const Application = require('./Models/Application'); // Import Application model
 
 const SECRET_KEY = 'your_jwt_secret';
 const app = express();
@@ -175,6 +176,41 @@ app.get('/skills/:id', authenticateToken, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+
+
+
+
+// Apply route
+// Apply to a skill (auth required)
+app.post('/apply', authenticateToken, async (req, res) => {
+  const { skillId, message } = req.body;
+
+  if (!skillId || !message) {
+    return res.status(400).json({ success: false, message: "Missing skillId or message" });
+  }
+
+  try {
+    // Optional: Validate skill exists
+    const skill = await Skill.findById(skillId);
+    if (!skill) {
+      return res.status(404).json({ success: false, message: "Skill not found" });
+    }
+
+    // For now, just log the apply info
+    console.log(`📩 New application by user ${req.user.email} for skill ${skillId}: ${message}`);
+
+    // You could save this into an Application model
+    res.status(200).json({ success: true, message: "Application submitted successfully" });
+
+  } catch (err) {
+    console.error("❌ Error applying for skill:", err.message);
+    res.status(500).json({ success: false, message: "Server error while applying" });
+  }
+});
+
 
 // Edit HTML page
 app.get('/edit/:id', authenticateToken, (req, res) => {

@@ -7,6 +7,7 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+      background-color: #f5f5f5;
     }
 
     h2 {
@@ -34,7 +35,27 @@
       padding: 15px;
       margin-bottom: 10px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      background-color: #f9f9f9;
+      background-color: #ffffff;
+    }
+
+    .skill-card p {
+      margin-bottom: 10px;
+    }
+
+    .apply-btn {
+      background-color: #007BFF;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .apply-btn:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
@@ -97,6 +118,22 @@
         text.innerHTML = `<strong>${skill.offeredBy}</strong> offers <strong>${skill.skillOffered}</strong> and wants to learn <strong>${skill.wantsToLearn}</strong>`;
         card.appendChild(text);
 
+        // Create Apply Button
+        const applyButton = document.createElement('button');
+        applyButton.textContent = "Apply";
+        applyButton.classList.add('apply-btn');
+        applyButton.addEventListener('click', function() {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            // Not logged in — redirect to login page
+            window.location.href = '/login.html';
+          } else {
+            // Logged in — go to apply.html with skillId
+            window.location.href = `apply.html?skillId=${skill._id}`;
+          }
+        });
+
+        card.appendChild(applyButton);
         container.appendChild(card);
       });
     }

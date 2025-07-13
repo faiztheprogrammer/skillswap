@@ -1,0 +1,101 @@
+<!-- apply.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Apply for Skill</title>
+    <link rel="stylesheet" href="dashboardStyle.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Apply for Skill</h2>
+        <form id="applyForm">
+            <input type="hidden" id="skillId">
+            <label for="message">Why are you applying?</label>
+            <textarea id="message" placeholder="Write your message..." rows="6"></textarea>
+            <button type="submit">Submit Application</button>
+        </form>
+        <p id="statusMsg" style="color: red;"></p>
+    </div>
+
+    <script>
+        // Extract skillId from query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const skillId = urlParams.get('skillId');
+        document.getElementById('skillId').value = skillId;
+
+        // Form submit
+        document.getElementById('applyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const message = document.getElementById('message').value;
+
+            const token = localStorage.getItem("token");
+
+            fetch('/apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ skillId: skillId, message: message })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Application submitted!");
+                        window.location.href = '/dashboard.html';
+                    } else {
+                        document.getElementById('statusMsg').innerText = data.message || "Application failed.";
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('statusMsg').innerText = "Something went wrong.";
+                    console.error(err);
+                });
+        }
+    );
+    </script>
+
+</body>
+
+</html>
