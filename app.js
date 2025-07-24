@@ -242,46 +242,6 @@ app.get('/received-applications', authenticateToken, async (req, res) => {
 
 
 
-
-// Respond to an application (auth required)
-app.post('/applications/respond', authenticateToken, async (req, res) => {
-  const { applicationId, response } = req.body;
-
-  if (!applicationId || !response) {
-    return res.status(400).json({ message: "Missing applicationId or response" });
-  }
-
-  try {
-    const application = await Application.findById(applicationId).populate('applicantId');
-
-    if (!application) {
-      return res.status(404).json({ message: "Application not found" });
-    }
-
-    // Optional: Make sure the skill belongs to current user
-    const skill = await Skill.findById(application.skillId);
-    if (!skill || skill.userId.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to respond to this application" });
-    }
-
-    // Save the response
-    application.response = response;
-    application.respondedAt = new Date();
-    await application.save();
-
-    console.log(`💬 Replied to application ${applicationId}: ${response}`);
-
-    res.status(200).json({ message: "Response sent successfully" });
-  } catch (err) {
-    console.error('❌ Error responding to application:', err.message);
-    res.status(500).json({ message: 'Failed to respond' });
-  }
-});
-
-
-
-
-
 // My Applications - Applications made by logged-in user
 app.get('/my-applications', authenticateToken, async (req, res) => {
   try {

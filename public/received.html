@@ -53,13 +53,7 @@
     <h1>📩 Received Applications</h1>
     <div id="applications-container">
         <p>Loading applications...</p>
-
     </div>
-    <form method="POST" action="/applications/respond" class="response-form">
-        <input type="hidden" name="applicationId" value="{{app._id}}">
-        <textarea name="response" placeholder="Write your reply..." required></textarea>
-        <button type="submit">Send Response</button>
-    </form>
     <script>
         const token = localStorage.getItem('token');
 
