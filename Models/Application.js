@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const applicationSchema = new mongoose.Schema({
   applicantId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,6 +11,8 @@ const applicationSchema = new mongoose.Schema({
     ref: 'Skill'
   },
   message: String,
+  response: String, // Response from the skill owner
+  respondedAt: Date, // To track time of response
   timestamp: {
     type: Date,
     default: Date.now

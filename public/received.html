@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Received Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #applications-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .application-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #4CAF50;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .application-card p {
+            margin: 6px 0;
+        }
+
+        .timestamp {
+            color: gray;
+            font-size: 0.9em;
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📩 Received Applications</h1>
+    <div id="applications-container">
+        <p>Loading applications...</p>
+
+    </div>
+    <form method="POST" action="/applications/respond" class="response-form">
+        <input type="hidden" name="applicationId" value="{{app._id}}">
+        <textarea name="response" placeholder="Write your reply..." required></textarea>
+        <button type="submit">Send Response</button>
+    </form>
+    <script>
+        const token = localStorage.getItem('token');
+
+        fetch('/received-applications', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Unauthorized or failed to fetch');
+                }
+                return res.json();
+            })
+            .then(data => {
+                const container = document.getElementById('applications-container');
+                container.innerHTML = ''; // clear loading text
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = '<p>No applications found.</p>';
+                    return;
+                }
+
+                data.forEach(app => {
+                    const card = document.createElement('div');
+                    card.className = 'application-card';
+
+                    card.innerHTML = `
+          <p><strong>Applicant:</strong> ${app.applicantId?.email || 'Unknown'}</p>
+          <p><strong>Skill:</strong> ${app.skillId?.skillOffered || 'Unknown'}</p>
+          <p><strong>Message:</strong><br>${app.message}</p>
+          <p class="timestamp">Received: ${new Date(app.timestamp).toLocaleString()}</p>
+        `;
+
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                document.getElementById('applications-container').innerHTML = `
+        <p class="error-message">⚠️ Failed to load applications. Please try logging in again.</p>
+      `;
+            });
+    </script>
+
+</body>
+
+</html>

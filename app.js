@@ -193,23 +193,113 @@ app.post('/apply', authenticateToken, async (req, res) => {
   }
 
   try {
-    // Optional: Validate skill exists
     const skill = await Skill.findById(skillId);
     if (!skill) {
       return res.status(404).json({ success: false, message: "Skill not found" });
     }
 
-    // For now, just log the apply info
-    console.log(`📩 New application by user ${req.user.email} for skill ${skillId}: ${message}`);
+    // ✅ Save the application
+    const application = new Application({
+      applicantId: req.user.id,
+      skillId,
+      message
+    });
 
-    // You could save this into an Application model
-    res.status(200).json({ success: true, message: "Application submitted successfully" });
+    await application.save();
+
+    console.log(`📩 New application by user ${req.user.email} for skill ${skillId}: ${message}`);
+    res.status(201).json({ success: true, message: "Application submitted successfully" });
 
   } catch (err) {
     console.error("❌ Error applying for skill:", err.message);
     res.status(500).json({ success: false, message: "Server error while applying" });
   }
 });
+
+
+
+
+
+// Route to get applications received by the logged-in user's skills
+app.get('/received-applications', authenticateToken, async (req, res) => {
+  try {
+    // First, find all skills owned by the logged-in user
+    const mySkills = await Skill.find({ userId: req.user.id });
+
+    const skillIds = mySkills.map(skill => skill._id);
+
+    // Now, find applications for those skills
+    const applications = await Application.find({ skillId: { $in: skillIds } })
+      .populate('applicantId', 'email')
+      .populate('skillId', 'skillOffered');
+
+    res.json(applications);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch applications' });
+  }
+});
+
+
+
+
+
+// Respond to an application (auth required)
+app.post('/applications/respond', authenticateToken, async (req, res) => {
+  const { applicationId, response } = req.body;
+
+  if (!applicationId || !response) {
+    return res.status(400).json({ message: "Missing applicationId or response" });
+  }
+
+  try {
+    const application = await Application.findById(applicationId).populate('applicantId');
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    // Optional: Make sure the skill belongs to current user
+    const skill = await Skill.findById(application.skillId);
+    if (!skill || skill.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized to respond to this application" });
+    }
+
+    // Save the response
+    application.response = response;
+    application.respondedAt = new Date();
+    await application.save();
+
+    console.log(`💬 Replied to application ${applicationId}: ${response}`);
+
+    res.status(200).json({ message: "Response sent successfully" });
+  } catch (err) {
+    console.error('❌ Error responding to application:', err.message);
+    res.status(500).json({ message: 'Failed to respond' });
+  }
+});
+
+
+
+
+
+// My Applications - Applications made by logged-in user
+app.get('/my-applications', authenticateToken, async (req, res) => {
+  try {
+    const applications = await Application.find({ applicantId: req.user.id })
+      .populate('skillId') // just include the skill name
+      .sort({ timestamp: -1 });
+
+    res.json(applications);
+  } catch (err) {
+    console.error('❌ Error fetching my applications:', err.message);
+    res.status(500).json({ message: 'Error loading your applications' });
+  }
+});
+
+
+
+
+
 
 
 // Edit HTML page

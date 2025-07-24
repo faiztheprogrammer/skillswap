@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>SkillSwap Dashboard</title>
   <link rel="stylesheet" href="dashboardStyle.css">
 </head>
+
 <body>
 
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <button id="logoutBtn" style="background-color: #f44336; color: white; padding: 13px 24px; border: none; border-radius: 6px; cursor: pointer;">
+    <button id="logoutBtn"
+      style="background-color: #f44336; color: white; padding: 13px 24px; border: none; border-radius: 6px; cursor: pointer;">
       Logout
     </button>
 
     <a href="addskill.html">
-      <button style="padding: 12px 24px; background-color: #5DBE8A; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      <button
+        style="padding: 12px 24px; background-color: #5DBE8A; color: white; border: none; border-radius: 6px; cursor: pointer;">
         ➕ Add a New Skill
       </button>
     </a>
+
+    <a href="received.html">
+      <button
+        style="padding: 12px 24px; background-color: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer;">
+        📩 Received Applications
+      </button>
+    </a>
+
   </div>
 
   <h2>Available Skills</h2>
@@ -33,61 +45,61 @@
     }
 
     // Load all skills
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       fetch('/skills', {
         headers: {
           'Authorization': 'Bearer ' + token
         }
       })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        var skillsContainer = document.getElementById('skills');
-        skillsContainer.innerHTML = "";
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          var skillsContainer = document.getElementById('skills');
+          skillsContainer.innerHTML = "";
 
-        data.forEach(function(skill) {
-          var card = document.createElement('div');
-          card.classList.add('skill-card');
+          data.forEach(function (skill) {
+            var card = document.createElement('div');
+            card.classList.add('skill-card');
 
-          var text = document.createElement('p');
-          text.innerHTML = '<strong>' + skill.offeredBy + '</strong> offers <strong>' + skill.skillOffered + '</strong> and wants to learn <strong>' + skill.wantsToLearn + '</strong>';
-          card.appendChild(text);
+            var text = document.createElement('p');
+            text.innerHTML = '<strong>' + skill.offeredBy + '</strong> offers <strong>' + skill.skillOffered + '</strong> and wants to learn <strong>' + skill.wantsToLearn + '</strong>';
+            card.appendChild(text);
 
-          var editButton = document.createElement('button');
-          editButton.textContent = 'Edit';
-          editButton.style.marginRight = '10px';
-          editButton.onclick = function() {
-            window.location.href = '/edit/' + skill._id;
-          };
+            var editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.style.marginRight = '10px';
+            editButton.onclick = function () {
+              window.location.href = '/edit/' + skill._id;
+            };
 
-          var deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.onclick = function() {
-            fetch('/skills/' + skill._id, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': 'Bearer ' + token
-              }
-            })
-            .then(function(response) {
-              if (response.ok) {
-                card.remove();
-              } else {
-                alert('Delete failed');
-              }
-            });
-          };
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function () {
+              fetch('/skills/' + skill._id, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': 'Bearer ' + token
+                }
+              })
+                .then(function (response) {
+                  if (response.ok) {
+                    card.remove();
+                  } else {
+                    alert('Delete failed');
+                  }
+                });
+            };
 
-          card.appendChild(editButton);
-          card.appendChild(deleteButton);
-          skillsContainer.appendChild(card);
+            card.appendChild(editButton);
+            card.appendChild(deleteButton);
+            skillsContainer.appendChild(card);
+          });
         });
-      });
     });
 
     // Logout
-    document.getElementById('logoutBtn').addEventListener('click', function() {
+    document.getElementById('logoutBtn').addEventListener('click', function () {
       localStorage.removeItem('token');
       window.location.href = '/login.html';
     });
@@ -101,14 +113,14 @@
       }
     })
 
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(data) {
+      .then(function (data) {
         var mySkillsContainer = document.getElementById('mySkills');
         mySkillsContainer.innerHTML = "";
 
-        data.forEach(function(skill) {
+        data.forEach(function (skill) {
           var card = document.createElement('div');
           card.classList.add('skill-card');
           var text = document.createElement('p');
@@ -120,26 +132,26 @@
           var editButton = document.createElement('button');
           editButton.textContent = 'Edit';
           editButton.style.marginRight = '10px';
-          editButton.onclick = function() {
+          editButton.onclick = function () {
             window.location.href = '/edit/' + skill._id;
           };
 
           var deleteButton = document.createElement('button');
           deleteButton.textContent = 'Delete';
-          deleteButton.onclick = function() {
+          deleteButton.onclick = function () {
             fetch('/skills/' + skill._id, {
               method: 'DELETE',
               headers: {
                 'Authorization': 'Bearer ' + token
               }
             })
-            .then(function(response) {
-              if (response.ok) {
-                card.remove();
-              } else {
-                alert('Delete failed');
-              }
-            });
+              .then(function (response) {
+                if (response.ok) {
+                  card.remove();
+                } else {
+                  alert('Delete failed');
+                }
+              });
           };
 
           card.appendChild(editButton);
@@ -151,4 +163,5 @@
       });
   </script>
 </body>
+
 </html>
