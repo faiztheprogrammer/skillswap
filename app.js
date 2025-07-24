@@ -248,7 +248,6 @@ app.get('/my-applications', authenticateToken, async (req, res) => {
     const applications = await Application.find({ applicantId: req.user.id })
       .populate('skillId') // just include the skill name
       .sort({ timestamp: -1 });
-
     res.json(applications);
   } catch (err) {
     console.error('❌ Error fetching my applications:', err.message);
