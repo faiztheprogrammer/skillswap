@@ -72,8 +72,13 @@
   <script>
     var skillId = window.location.pathname.split('/')[2];
 
-    // Load the skill
-    fetch('/skills/' + skillId)
+    // Load the skill (with Authorization header)
+    var token = localStorage.getItem('token');
+    fetch('/skills/' + skillId, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
       .then(function(res) { return res.json(); })
       .then(function(skill) {
         document.getElementById('offeredBy').value = skill.offeredBy;
