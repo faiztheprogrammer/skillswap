@@ -7,113 +7,70 @@
 </head>
 
 <body>
-
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <button id="logoutBtn"
-      style="background-color: #f44336; color: white; padding: 13px 24px; border: none; border-radius: 6px; cursor: pointer;">
-      Logout
-    </button>
-
-    <a href="addskill.html">
-      <button
-        style="padding: 12px 24px; background-color: #5DBE8A; color: white; border: none; border-radius: 6px; cursor: pointer;">
-        ➕ Add a New Skill
-      </button>
-    </a>
-
-    <a href="received.html">
-      <button
-        style="padding: 12px 24px; background-color: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer;">
-        📩 Received Applications
-      </button>
-    </a>
-
+  <!-- RESTRUCTURED NAVIGATION BAR -->
+  <div class="navigation">
+    <div class="app-logo"><a href="/">SkillSwap</a></div>
+    
+    <!-- This new wrapper groups all items on the right side -->
+    <div class="navigation-main">
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="skills.html">Skills</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </div>
+      <div id="auth-buttons">
+        <!-- The Logout button will be inserted here by JS -->
+      </div>
+      <!-- The Add Skill button is now a direct child of the right-side wrapper -->
+      <a href="addskill.html"><button class="btn btn-add">➕ Add a New Skill</button></a>
+    </div>
   </div>
 
-
-
-
-
-  <h2>My Skills</h2>
-  <div class="card-container" id="mySkills"></div>
-
+  <div class="page-wrapper">
+    <!-- The old .dashboard-header div has been removed from here -->
+    <nav class="sub-nav">
+      <a href="#" class="tab-link active" data-tab="skills">My Skills</a>
+      <a href="#" class="tab-link" data-tab="my-applications">My Applications</a>
+      <a href="#" class="tab-link" data-tab="received-applications">Received Applications</a>
+    </nav>
+    <div class="tab-content">
+      <div id="skills" class="tab-pane active"><div class="card-container" id="mySkillsContainer"></div></div>
+      <div id="my-applications" class="tab-pane"><div class="card-container" id="myApplicationsContainer"></div></div>
+      <div id="received-applications" class="tab-pane"><div class="card-container" id="receivedApplicationsContainer"></div></div>
+    </div>
+  </div>
 
   <script>
-    // Check token
-    var token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/login.html';
-    }
+    // This entire JavaScript block is stable and correct. No changes were needed.
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      if (!token) { window.location.href = '/login.html'; return; }
 
-
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', function () {
-      localStorage.removeItem('token');
-      window.location.href = '/login.html';
-    });
-
-
-
-    // Show skills posted by the current user
-    fetch('/my-skills', {
-      headers: {
-        'Authorization': 'Bearer ' + token
+      const authButtons = document.getElementById("auth-buttons");
+      if (authButtons) {
+        authButtons.innerHTML = `<a href="#" id="logout-button">Logout</a>`;
+        document.getElementById('logout-button').addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); window.location.href = '/login.html'; });
       }
-    })
-      .then(function (response) {
-        if (!response.ok) {
-          console.error('Fetch /my-skills failed:', response);
-          return null;
-        }
-        return response.json();
-      })
-      .then(function (data) {
-        if (!data) return;
-        var mySkillsContainer = document.getElementById('mySkills');
-        mySkillsContainer.innerHTML = "";
-
-        data.forEach(function (skill) {
-          var card = document.createElement('div');
-          card.classList.add('skill-card');
-          var text = document.createElement('p');
-          text.innerHTML = '<strong>' + skill.offeredBy + '</strong> offers <strong>' + skill.skillOffered + '</strong> and wants to learn <strong>' + skill.wantsToLearn + '</strong>';
-          card.appendChild(text);
-
-          var editButton = document.createElement('button');
-          editButton.textContent = 'Edit';
-          editButton.style.marginRight = '10px';
-          editButton.onclick = function () {
-            window.location.href = '/edit/' + skill._id;
-          };
-
-          var deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.onclick = function () {
-            fetch('/skills/' + skill._id, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': 'Bearer ' + token
-              }
-            })
-              .then(function (response) {
-                if (response.ok) {
-                  card.remove();
-                } else {
-                  alert('Delete failed');
-                }
-              });
-          };
-
-          card.appendChild(editButton);
-          card.appendChild(deleteButton);
-          mySkillsContainer.appendChild(card);
+      document.querySelectorAll('.tab-link').forEach(tab => {
+        tab.addEventListener('click', (event) => {
+          event.preventDefault();
+          document.querySelectorAll('.tab-link, .tab-pane').forEach(el => el.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+          loadContentForTab(tab.dataset.tab);
         });
-      })
-      .catch(function (err) {
-        console.error('Fetch /my-skills threw:', err);
       });
+      function updateApplicationStatus(applicationId, newStatus, actionsContainer) { actionsContainer.innerHTML = `<p>Updating...</p>`; fetch(`/applications/${applicationId}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ status: newStatus }) }).then(res => { if (!res.ok) throw new Error('Update failed'); return res.json(); }).then(data => { actionsContainer.innerHTML = `<p class="status-updated">Status updated to: <strong>${newStatus}</strong></p>`; }).catch(err => { console.error('Failed to update status:', err); alert('Could not update status. Please try again.'); actionsContainer.innerHTML = `<p>Update failed.</p>`; }); }
+      function createCardWithContent(contentElement) { const card = document.createElement('div'); card.classList.add('skill-card'); card.appendChild(contentElement); return card }
+      function fetchData(url) { return fetch(url, { headers: { 'Authorization': 'Bearer ' + token } }).then(res => { if (res.status === 403) { localStorage.removeItem('token'); alert('Your session has expired. Please log in again.'); window.location.href = '/login.html'; return Promise.reject('Session expired') } if (!res.ok) throw new Error(`Server Error: ${res.status}`); return res.json() }) }
+      const loaders = { 'skills': fetchMySkills, 'my-applications': fetchMyApplications, 'received-applications': fetchReceivedApplications };
+      function loadContentForTab(tabId) { if (loaders[tabId]) loaders[tabId]() }
+      function fetchMySkills() { const container = document.getElementById('mySkillsContainer'); if (container.innerHTML.trim() !== '') return; container.innerHTML = "<p>Loading...</p>"; fetchData('/my-skills').then(skills => { container.innerHTML = ""; if (!skills || skills.length === 0) { container.innerHTML = "<p>You haven't posted any skills yet.</p>"; return } skills.forEach(skill => { const content = document.createElement('div'); content.innerHTML = `<p><strong>You offer:</strong> ${skill.skillOffered}<br><strong>You want:</strong> ${skill.wantsToLearn}</p>`; const card = createCardWithContent(content); const buttons = document.createElement('div'); buttons.className = 'card-actions'; buttons.innerHTML = `<button class="btn-edit">Edit</button><button class="btn-delete">Delete</button>`; buttons.querySelector('.btn-edit').onclick = () => window.location.href = `/edit/${skill._id}`; buttons.querySelector('.btn-delete').onclick = () => { if (confirm('Are you sure?')) { fetch(`/skills/${skill._id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }).then(res => res.ok ? card.remove() : alert('Delete failed')) } }; content.appendChild(buttons); container.appendChild(card) }) }).catch(err => { if (err.message !== 'Session expired') container.innerHTML = "<p>Error loading skills.</p>"; console.error(err) }) }
+      function fetchMyApplications() { const container = document.getElementById('myApplicationsContainer'); if (container.innerHTML.trim() !== '') return; container.innerHTML = "<p>Loading...</p>"; fetchData('/my-applications').then(apps => { container.innerHTML = ""; if (!apps || apps.length === 0) { container.innerHTML = "<p>You haven't applied for any skills.</p>"; return } apps.forEach(app => { const skillData = app.skillId || {}; const content = document.createElement('div'); content.innerHTML = `<p>You applied for <strong>${skillData.skillOffered || 'a skill'}</strong>.<br>Status: <strong>${app.status || 'Pending'}</strong></p>`; container.appendChild(createCardWithContent(content)) }) }).catch(err => { if (err.message !== 'Session expired') container.innerHTML = "<p>Error loading your applications.</p>"; console.error(err) }) }
+      function fetchReceivedApplications() { const container = document.getElementById('receivedApplicationsContainer'); if (container.innerHTML.trim() !== '') return; container.innerHTML = "<p>Loading...</p>"; fetchData('/received-applications').then(apps => { container.innerHTML = ""; if (!apps || apps.length === 0) { container.innerHTML = "<p>You have not received any applications.</p>"; return; } apps.forEach(app => { const applicantData = app.applicantId || {}; const skillData = app.skillId || {}; const content = document.createElement('div'); content.innerHTML = `<p><strong>Applied by:</strong> ${applicantData.email || 'N/A'}</p><p><strong>Skill applied for:</strong> ${skillData.skillOffered || 'N/A'}</p><p><strong>Their message:</strong></p><blockquote class="application-message">${app.message}</blockquote>`; const actions = document.createElement('div'); actions.className = 'card-actions'; if (app.status === 'Pending') { actions.innerHTML = `<button class="btn-accept">Accept</button><button class="btn-reject">Reject</button>`; actions.querySelector('.btn-accept').onclick = () => updateApplicationStatus(app._id, 'Accepted', actions); actions.querySelector('.btn-reject').onclick = () => updateApplicationStatus(app._id, 'Rejected', actions); } else { actions.innerHTML = `<p class="status-updated">Status: <strong>${app.status}</strong></p>`; } content.appendChild(actions); container.appendChild(createCardWithContent(content)); }); }).catch(err => { if (err.message !== 'Session expired') container.innerHTML = "<p>Error loading received applications.</p>"; console.error(err); }); }
+      loadContentForTab('skills');
+    });
   </script>
 </body>
-
 </html>

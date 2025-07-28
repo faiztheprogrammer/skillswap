@@ -6,11 +6,7 @@
 body {
   font-family: Arial, sans-serif;
   background: #f1f1f1;
-  /* margin: 220px; */
-  /* padding: 200px; */
 }
-
-
 
 /*********************   Navigation Starts   *********************/
 .navigation {
@@ -20,7 +16,7 @@ body {
   height: 70px;
   background-color: #ffffff;
   padding: 0 120px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 999;
@@ -35,6 +31,8 @@ body {
 
 .nav-items {
   display: flex;
+  align-items: center;
+  /* Ensures vertical alignment */
   gap: 30px;
 }
 
@@ -65,22 +63,11 @@ body {
 .nav-items a:hover::after {
   width: 100%;
 }
+
 /*********************   Navigation Ends   *********************/
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*********************   Hero Section   *********************/
-
 .hero-split {
   display: flex;
   justify-content: space-between;
@@ -89,7 +76,7 @@ body {
   padding-right: 120px;
   background-color: #f0f8ff;
   gap: 40px;
-  flex-wrap: wrap; /* Ensures responsiveness on small screens */
+  flex-wrap: wrap;
   height: 80vh;
 }
 
@@ -104,7 +91,7 @@ body {
   font-size: 34px;
   text-align: start;
   color: #333;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
   font-weight: 900;
 }
 
@@ -158,15 +145,6 @@ body {
 }
 
 /*********************   Hero Section Ends  *********************/
-
-
-
-
-
-
-
-
-
 
 
 /*********************   How it works Section  *********************/
@@ -226,16 +204,8 @@ body {
   padding-left: 30px;
   padding-right: 30px;
 }
+
 /*********************   How it works Section Ends  *********************/
-
-
-
-
-
-
-
-
-
 
 
 /*********************   Why SkillSwap Section  *********************/
@@ -295,14 +265,8 @@ body {
   padding-left: 30px;
   padding-right: 30px;
 }
+
 /*********************   Why SkillSwap Section Ends  *********************/
-
-
-
-
-
-
-
 
 
 /*********************   CTA Section Starts  *********************/
@@ -311,10 +275,9 @@ body {
   padding: 80px 0;
 }
 
-/* CTA with background image and overlay */
 .cta.with-bg {
   position: relative;
-  background-image: url('images/cta-img.jpeg'); /* Replace with your real image path */
+  background-image: url('images/cta-img.jpeg');
   background-size: cover;
   background-position: center;
   color: white;
@@ -327,17 +290,15 @@ body {
   overflow: hidden;
 }
 
-/* Overlay effect */
 .cta.with-bg::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.705); /* Adjust opacity for strength */
+  background: rgba(0, 0, 0, 0.705);
   z-index: 0;
   border-radius: 12px;
 }
 
-/* Content stays above overlay */
 .cta-content {
   position: relative;
   z-index: 1;
@@ -366,7 +327,7 @@ body {
   transition: background 0.3s ease;
 }
 
-.cta-wrapper .cta .cta-content a { 
+.cta-wrapper .cta .cta-content a {
   font-size: 14px;
   font-weight: 400;
 }
@@ -376,11 +337,6 @@ body {
 }
 
 /*********************   CTA Section Ends  *********************/
-
-
-
-
-
 
 
 /*********************   Footer Section Starts  *********************/
@@ -412,7 +368,7 @@ body {
 .footer-links h4,
 .footer-social h4 {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #333;
 }
 
@@ -452,17 +408,6 @@ body {
   width: 100%;
 }
 
-
-.footer-social .social-icons a {
-  margin-right: 10px;
-  display: inline-block;
-}
-
-.footer-social .social-icons img {
-  width: 24px;
-  height: 24px;
-}
-
 .footer-bottom {
   text-align: center;
   padding-top: 30px;
@@ -472,71 +417,38 @@ body {
   border-top: 1px solid #ddd;
   margin-top: 40px;
 }
+
+/* -- NEW STYLES FOR SOCIAL MEDIA ICONS -- */
+.footer-social .social-icons {
+  display: flex;
+  gap: 15px;
+  /* Adds space between the icons */
+}
+
+.footer-social .social-icons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  color: #333;
+  /* Icon color */
+  background-color: #ffffff;
+  /* Circular background color */
+  border-radius: 50%;
+  /* Makes the background a perfect circle */
+  text-decoration: none;
+  font-size: 18px;
+  /* Size of the icon itself */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-social .social-icons a:hover {
+  transform: translateY(-3px);
+  /* A nice "lift" effect on hover */
+  color: #5DBE8A;
+  /* Change icon color to the theme color */
+}
+
 /*********************   Footer Section Ends  *********************/
-
-
-
-
-
-
-
-
-
-
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  background: white;
-  padding: 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-h1, h2 {
-  text-align: center;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-input {
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid grey;
-  border-radius: 3px;
-}
-
-button {
-  padding: 10px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-button:hover {
-  background: #45a049;
-}
-
-#skillList {
-  margin-top: 30px;
-}
-
-.card-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;      /* So items wrap to next line */
-  gap: 20px;            /* Optional spacing between cards */
-}
-
-.skill-card {
-  width: 45%;
-  border: 1px solid #ccc;
-  padding: 15px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-  border-radius: 8px;
-}

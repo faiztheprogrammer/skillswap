@@ -3,6 +3,8 @@
 <head>
   <title>SkillSwap</title>
   <link rel="stylesheet" href="style.css">
+  <!-- ADDED FONT AWESOME FOR HIGH-QUALITY ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
@@ -11,18 +13,13 @@
     <a href="/">SkillSwap</a>
   </div>
   <div class="nav-items">
-    <a href="#">Home</a>
+    <a href="/">Home</a>
     <a href="skills.html">Skills</a>
     <a href="#">Contact</a>
     <a href="#">About</a>
+    <div id="auth-buttons"></div>
   </div>
 </div>
-
-
-
-
-
-
 
 <section class="hero-split">
   <div class="hero-text">
@@ -37,10 +34,6 @@
     <img src="images/a-vibrant-digital-illustration-depicting_HirgmEw0Qeq4EpVXrlHBdw_bOXcW3tNQ9Kw9vO17wqxFQ.jpeg" alt="Skill Sharing">
   </div>
 </section>
-
-
-
-
 
 <section class="how-it-works">
   <h2>How It Works</h2>
@@ -63,10 +56,6 @@
   </div>
 </section>
 
-
-
-
-
 <section class="why-skillswap">
   <h2>Why SkillSwap?</h2>
   <div class="why-reasons">
@@ -88,22 +77,15 @@
   </div>
 </section>
 
-
-
-
 <section class="cta-wrapper">
   <div class="cta with-bg">
     <div class="cta-content">
       <h2>Ready to Share & Learn?</h2>
       <p>Join SkillSwap and become part of a growing community of learners and teachers.</p>
-      <a href="submit.html" class="btn btn-primary">Get Started</a>
+      <a href="register.html" class="btn btn-primary">Get Started</a>
     </div>
   </div>
 </section>
-
-
-
-
 
 <footer class="footer">
   <div class="footer-container">
@@ -115,8 +97,8 @@
     <div class="footer-links">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Skills</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="skills.html">Skills</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
@@ -125,26 +107,9 @@
     <div class="footer-social">
       <h4>Connect</h4>
       <div class="social-icons">
-        <!-- Facebook -->
-        <a href="#" aria-label="Facebook">
-          <svg width="24" height="24" fill="#5DBE8A" viewBox="0 0 24 24">
-            <path d="M22 12a10 10 0 10-11.6 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.2V12h2.3l-.4 3h-1.9v7A10 10 0 0022 12z"/>
-          </svg>
-        </a>
-
-        <!-- Twitter -->
-        <a href="#" aria-label="Twitter">
-          <svg width="24" height="24" fill="#5DBE8A" viewBox="0 0 24 24">
-            <path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.38 8.59 8.59 0 01-2.72 1.03A4.28 4.28 0 0016.1 4a4.28 4.28 0 00-4.29 4.29c0 .34.03.67.1.99-3.56-.18-6.72-1.88-8.83-4.47a4.27 4.27 0 00-.58 2.16 4.28 4.28 0 001.9 3.57 4.2 4.2 0 01-1.94-.53v.05a4.29 4.29 0 003.44 4.2 4.27 4.27 0 01-1.93.07 4.3 4.3 0 004 2.97 8.6 8.6 0 01-6.32 1.77A12.1 12.1 0 008.29 21c7.55 0 11.68-6.25 11.68-11.68l-.01-.53A8.36 8.36 0 0022.46 6z"/>
-          </svg>
-        </a>
-
-        <!-- Instagram -->
-        <a href="#" aria-label="Instagram">
-          <svg width="24" height="24" fill="#5DBE8A" viewBox="0 0 24 24">
-            <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm4.88-1.63a.88.88 0 110 1.75.88.88 0 010-1.75z"/>
-          </svg>
-        </a>
+        <a href="https://www.facebook.com/share/1T6tZTqCL4/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/just_faizzzz/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/faiz-ur-rehman-uol/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
       </div>
     </div>
   </div>
@@ -154,10 +119,28 @@
   </div>
 </footer>
 
+<!-- JS to toggle login/register or dashboard/logout -->
+<script>
+  const token = localStorage.getItem("token");
+  const authButtons = document.getElementById("auth-buttons");
 
+  if (!token) {
+    authButtons.innerHTML = `
+      <a style="margin-right: 18px;" href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    `;
+  } else {
+    authButtons.innerHTML = `
+      <a style="margin-right: 18px;" href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()">Logout</a>
+    `;
+  }
 
-
-
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
+</script>
 
 </body>
 </html>

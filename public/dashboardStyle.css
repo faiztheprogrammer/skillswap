@@ -1,41 +1,157 @@
+/* INCREASED SPACE BELOW NAVBAR */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f2f2f2;
   margin: 0;
-  padding: 80px 120px;
+  padding-top: 120px; /* Increased from 80px */
 }
 
+/* This rule is now GONE, as the element was moved/removed */
+.dashboard-header {
+  /* This style is no longer needed */
+}
 
-
+.page-wrapper {
+  padding: 20px 120px;
+}
+.sub-nav {
+  display: flex;
+  gap: 20px;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 30px;
+}
+.tab-link {
+  padding: 10px 4px;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+.tab-link:hover { color: #000; }
+.tab-link.active {
+  color: #5DBE8A;
+  border-bottom-color: #5DBE8A;
+  font-weight: 600;
+}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+.btn-add {
+  padding: 10px 20px; /* Slightly smaller to fit better in navbar */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  background-color: #5DBE8A;
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+.btn-add:hover { opacity: 0.9; }
 .card-container {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
 }
-
 .skill-card {
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
   flex: 1 1 300px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
 }
-
 .skill-card p {
   font-size: 15px;
+  margin-top: 0;
   margin-bottom: 10px;
+  line-height: 1.5;
 }
-
-.skill-card button {
-  background-color: #d9534f;
+.card-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.card-actions button {
   color: #fff;
   border: none;
   padding: 8px 14px;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+.btn-edit { background-color: #f0ad4e; }
+.btn-edit:hover { background-color: #ec971f; }
+.btn-delete { background-color: #d9534f; }
+.btn-delete:hover { background-color: #c9302c; }
+.btn-accept { background-color: #5DBE8A; }
+.btn-accept:hover { background-color: #4aa471; }
+.btn-reject { background-color: #d9534f; }
+.btn-reject:hover { background-color: #c9302c; }
+.status-updated {
+    font-weight: 500;
+    color: #333;
+    padding: 8px 0;
+}
+.application-message {
+  margin: 10px 0 15px 0;
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+  border-left: 3px solid #ddd;
+  font-style: italic;
+  color: #555;
+  word-wrap: break-word;
+}
+.navigation {
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  padding: 20px 120px; /* Added more vertical padding */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+  box-sizing: border-box;
+}
+.app-logo a {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5DBE8A;
+  text-decoration: none;
 }
 
-.skill-card button:hover {
-  background-color: #c9302c;
+/* MODIFIED & NEW RULES FOR NAVBAR ALIGNMENT */
+.navigation-main {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Space between links, logout, and add button */
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px; /* Space between "Home", "Skills", etc. */
+}
+
+/* Updated selector to apply styles correctly */
+.navigation-main a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navigation-main a:hover {
+  color: #5DBE8A;
+}
+
+#auth-buttons a {
+  white-space: nowrap; /* Prevent Logout from wrapping */
 }

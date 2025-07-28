@@ -179,7 +179,34 @@ app.get('/skills/:id', authenticateToken, async (req, res) => {
 
 
 
+// Update an application's status (e.g., Accept/Reject)
+app.put('/applications/:applicationId/status', authenticateToken, async (req, res) => {
+  const { applicationId } = req.params;
+  const { status } = req.body; // Expecting { status: 'Accepted' } or { status: 'Rejected' }
 
+  // Basic validation
+  if (!status || !['Accepted', 'Rejected'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid status provided.' });
+  }
+
+  try {
+    const application = await Application.findByIdAndUpdate(
+      applicationId,
+      { status: status },
+      { new: true } 
+    );
+
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found.' });
+    }
+
+    res.status(200).json({ message: 'Status updated successfully', application });
+
+  } catch (err) {
+    console.error('Error updating application status:', err);
+    res.status(500).json({ message: 'Server error while updating status.' });
+  }
+});
 
 
 
@@ -240,7 +267,42 @@ app.get('/received-applications', authenticateToken, async (req, res) => {
 });
 
 
+// --- ADD THIS NEW ROUTE TO APP.JS ---
 
+// Update an application's status (e.g., Accept/Reject)
+app.put('/applications/:applicationId/status', authenticateToken, async (req, res) => {
+  const { applicationId } = req.params;
+  const { status } = req.body; // Expecting { status: 'Accepted' } or { status: 'Rejected' }
+
+  // Basic validation
+  if (!status || !['Accepted', 'Rejected'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid status provided.' });
+  }
+
+  try {
+    // Find the application and update it
+    const application = await Application.findByIdAndUpdate(
+      applicationId,
+      { status: status }, // The data to update
+      { new: true } // This option returns the updated document
+    );
+
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found.' });
+    }
+
+    // Optional: Check if the user updating this is the owner of the skill
+    // (This is an advanced security check you could add later)
+
+    res.status(200).json({ message: 'Status updated successfully', application });
+
+  } catch (err) {
+    console.error('Error updating application status:', err);
+    res.status(500).json({ message: 'Server error while updating status.' });
+  }
+});
+
+// --- END OF NEW ROUTE ---
 
 // My Applications - Applications made by logged-in user
 app.get('/my-applications', authenticateToken, async (req, res) => {
