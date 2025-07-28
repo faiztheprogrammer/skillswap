@@ -1,14 +1,8 @@
-/* INCREASED SPACE BELOW NAVBAR */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f2f2f2;
   margin: 0;
-  padding-top: 120px; /* Increased from 80px */
-}
-
-/* This rule is now GONE, as the element was moved/removed */
-.dashboard-header {
-  /* This style is no longer needed */
+  padding-top: 120px;
 }
 
 .page-wrapper {
@@ -110,7 +104,7 @@ body {
 .navigation {
   background-color: white;
   border-bottom: 1px solid #ddd;
-  padding: 20px 120px; /* Added more vertical padding */
+  padding: 20px 120px;
   position: fixed;
   top: 0;
   left: 0;
@@ -128,7 +122,6 @@ body {
   text-decoration: none;
 }
 
-/* MODIFIED & NEW RULES FOR NAVBAR ALIGNMENT */
 .navigation-main {
   display: flex;
   align-items: center;
@@ -140,7 +133,6 @@ body {
   gap: 20px; /* Space between "Home", "Skills", etc. */
 }
 
-/* Updated selector to apply styles correctly */
 .navigation-main a {
   text-decoration: none;
   color: #333;
